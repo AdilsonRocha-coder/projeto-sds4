@@ -1,5 +1,7 @@
 package com.piuwave.piuvendas.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -7,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.piuwave.piuvendas.dto.SaleDTO;
+import com.piuwave.piuvendas.dto.SaleSuccessDTO;
+import com.piuwave.piuvendas.dto.SaleSumDTO;
 import com.piuwave.piuvendas.entities.Sale;
 import com.piuwave.piuvendas.repositories.SaleRepository;
 import com.piuwave.piuvendas.repositories.SellerRepository;
@@ -34,4 +38,14 @@ public class SaleService {
 		Page<Sale> result = repository.findAll(pageable);
 		return result.map(x -> new SaleDTO(x));
 	}	
+	
+	@Transactional(readOnly = true)//aqui o JPA nao fara logs no BD
+	public List<SaleSumDTO> amountGroupedBySeller(){
+			return repository.amountGroupedBySeller();
+	}
+	
+	@Transactional(readOnly = true)//aqui o JPA nao fara logs no BD
+	public List<SaleSuccessDTO> successGroupedBySeller(){
+			return repository.successGroupedBySeller();
+	}
 }
