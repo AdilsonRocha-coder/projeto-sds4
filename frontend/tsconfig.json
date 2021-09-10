@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src",
+    "baseUrl": "./src", //com essa instrucao aqui, nao precisaremos mostrar o caminho com "./ e a pagina que queremos" (por exemplo, no Route, basta colocarmos Home)
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
