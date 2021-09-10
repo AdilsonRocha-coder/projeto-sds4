@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { SaleSum } from "types/sale";
 import { BASE_URL } from "utils/requests";
@@ -8,21 +9,24 @@ type ChartData = {
   series: number[];
 };
 
+//abaixo temos o useState
 const DonutChart = () => {
-  // FORMA ERRADA - SEM OS HOOKS
-  let chartData: ChartData = { labels: [], series: [] };
+  const [chartData, setChartData] = useState<ChartData>({
+    labels: [],
+    series: [],
+  });
 
   //aqui importamos o axios para fazermos a requisicao para obter os dados do backend
+  //usamos o useEfect para que o programa não fique em um looping trazendo as infos
+  useEffect(() => {
+    axios.get(`${BASE_URL}/sales/amount-by-seller`).then((response) => {
+      const data = response.data as SaleSum[];
+      const myLabels = data.map((x) => x.sellerName);
+      const mySeries = data.map((x) => x.sum);
 
-  //FORMA ERRADA
-  axios.get(`${BASE_URL}/sales/amount-by-seller`).then((response) => {
-    const data = response.data as SaleSum[];
-    const myLabels = data.map((x) => x.sellerName);
-    const mySeries = data.map((x) => x.sum);
-
-    chartData = { labels: myLabels, series: mySeries };
-    console.log(chartData);
-  });
+      setChartData({ labels: myLabels, series: mySeries });
+    });
+  }, []);
 
   /*
   const mockData = {
