@@ -20,11 +20,11 @@ const DataTable = () => {
   //o useEffect abaixo farah a chamada na API apenas uma vez quando a pagina carregar na primeira vez
   useEffect(() => {
     axios
-      .get(`${BASE_URL}/sales?page=8&size=15&sort=date,desc`)
+      .get(`${BASE_URL}/sales?page=${activePage}&size=15&sort=date,desc`)
       .then((response) => {
         setPage(response.data);
       });
-  }, []);
+  }, [activePage]);
 
   const changePage = (index: number) => {
     setActivePage(index);
